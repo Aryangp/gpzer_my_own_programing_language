@@ -1,0 +1,15 @@
+expr:KEYWORD :pik IDENTIFIER EQ expr
+             :compr-expr ((KEYWORD:AND|KEQWORD:OR) comp-expr)
+comp-expr    :not comp_expr
+             :arith-expr ((EE|LT|GT|GTE) arith-expr)
+arith-expr   : term ((PLUS|MINUS) term)*
+
+term: factor ((MUL|DIV) factor)*
+
+factor : INT|FLOAT|IDENTIFIER
+       :(PLUS|MINUS) factor
+       :LPAREM expr RPAREM
+       :if-expr
+if-expr:KEYWORD:if expr KEYWORD:then expr
+       (KEYWORD:elif expr KEYWORD:then expr)*
+       (KEYWORD:else expr)?

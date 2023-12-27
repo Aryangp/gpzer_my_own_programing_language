@@ -13,3 +13,7 @@ factor : INT|FLOAT|IDENTIFIER
 if-expr:KEYWORD:if expr KEYWORD:then expr
        (KEYWORD:elif expr KEYWORD:then expr)*
        (KEYWORD:else expr)?
+
+for-expr :KEYWORD:for IDENTIFIER EO expr KEYWORD:to expr
+          (KEYWORD:step expr)? KEYWORD:then expr
+while-expr:KEYWORD:while expr KEYWORD:then expr                 

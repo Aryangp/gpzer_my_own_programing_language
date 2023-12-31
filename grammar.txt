@@ -9,7 +9,7 @@ term: factor ((MUL|DIV) factor)*
 
 call         :factor (LPAREM (expr (COMMA expr)*)? RPAREM)?
 
-factor : INT|FLOAT|IDENTIFIER
+factor : INT|FLOAT|STRING|IDENTIFIER
        :(PLUS|MINUS) factor
        :LPAREM expr RPAREM
        :if-expr

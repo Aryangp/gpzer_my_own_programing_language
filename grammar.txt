@@ -1,4 +1,10 @@
-statments :  NEWLINE* expr (NEWLINE + expr)* NEWLINE*
+statments :  NEWLINE* statment (NEWLINE + statment)* NEWLINE*
+
+statment   : KEYWORD:return expr?
+           : KEYWORD:continue
+           : KEYWORD:break
+           : expr
+
 
 expr:KEYWORD :pik IDENTIFIER EQ expr
              :compr-expr ((KEYWORD:AND|KEQWORD:OR) comp-expr)

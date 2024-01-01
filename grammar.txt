@@ -1,3 +1,5 @@
+statments :  NEWLINE* expr (NEWLINE + expr)* NEWLINE*
+
 expr:KEYWORD :pik IDENTIFIER EQ expr
              :compr-expr ((KEYWORD:AND|KEQWORD:OR) comp-expr)
 comp-expr    :not comp_expr
@@ -19,13 +21,28 @@ atom: INT|FLOAT|STRING|IDENTIFIER
        :fun-def
 
 list_expr:  LSQUARE (expr (COMMA expr)*)? RSQUARE     
-if-expr:KEYWORD:if expr KEYWORD:then expr
-       (KEYWORD:elif expr KEYWORD:then expr)*
-       (KEYWORD:else expr)?
+if-expr     : KEYWORD:IF expr KEYWORD:THEN
+              (expr if-expr-b|if-expr-c?)
+            | (NEWLINE statements KEYWORD:END|if-expr-b|if-expr-c)
 
-for-expr :KEYWORD:for IDENTIFIER EO expr KEYWORD:to expr
-          (KEYWORD:step expr)? KEYWORD:then expr
-while-expr:KEYWORD:while expr KEYWORD:then expr   
-func-def  :KEYWORD:pokeball IDENTIFIER?  
-           LPAREM (IDENTIFIER(COMMA IDENTIFIER)*) RPAREM  
-           ARROW expr              
+if-expr-b   : KEYWORD:ELIF expr KEYWORD:THEN
+              (expr if-expr-b|if-expr-c?)
+            | (NEWLINE statements KEYWORD:END|if-expr-b|if-expr-c)
+
+if-expr-c   : KEYWORD:ELSE
+              expr
+            | (NEWLINE statements KEYWORD:END)
+
+for-expr    : KEYWORD:FOR IDENTIFIER EQ expr KEYWORD:TO expr 
+              (KEYWORD:STEP expr)? KEYWORD:THEN
+              expr
+            | (NEWLINE statements KEYWORD:END)
+
+while-expr  : KEYWORD:WHILE expr KEYWORD:THEN
+              expr
+            | (NEWLINE statements KEYWORD:END)
+
+func-def    : KEYWORD:FUN IDENTIFIER?
+              LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN
+              (ARROW expr)
+            | (NEWLINE statements KEYWORD:END)           

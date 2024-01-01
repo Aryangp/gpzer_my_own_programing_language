@@ -5,15 +5,20 @@ comp-expr    :not comp_expr
 arith-expr   : term ((PLUS|MINUS) term)*
 
 term: factor ((MUL|DIV) factor)*
-             call
 
-call         :factor (LPAREM (expr (COMMA expr)*)? RPAREM)?
+factor :(PLUS|MINUS) factor
+       :power
 
-factor : INT|FLOAT|STRING|IDENTIFIER
-       :(PLUS|MINUS) factor
+power  :call (POW factor)*             
+call  :atom (LPAREM (expr (COMMA expr)*)? RPAREM)?
+
+atom: INT|FLOAT|STRING|IDENTIFIER
        :LPAREM expr RPAREM
+       :list_expr
        :if-expr
        :fun-def
+
+list_expr:  LSQUARE (expr (COMMA expr)*)? RSQUARE     
 if-expr:KEYWORD:if expr KEYWORD:then expr
        (KEYWORD:elif expr KEYWORD:then expr)*
        (KEYWORD:else expr)?
